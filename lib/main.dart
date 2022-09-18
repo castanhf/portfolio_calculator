@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:syncfusion_flutter_sliders/sliders.dart';
+import 'package:syncfusion_flutter_gauges/gauges.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(const PortfolioCalculator());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+/*
+ * Main class - Portfolio calculator
+ */
+class PortfolioCalculator extends StatelessWidget {
+  const PortfolioCalculator({super.key});
 
   // This widget is the root of your application.
   @override
@@ -61,6 +66,25 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
+  double _value = 0.5;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Center(
+        child: SfSlider(
+          value: _value,
+          onChanged: (dynamic newValue) {
+            setState(() {
+              _value = newValue;
+            });
+          },
+        ),
+      ),
+    );
+  }
+
+/* TODO - GET RID OF THIS AFTER UNDERSTANDING THIS METHOD
   @override
   Widget build(BuildContext context) {
     // This method is rerun every time setState is called, for instance as done
@@ -112,4 +136,6 @@ class _MyHomePageState extends State<MyHomePage> {
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
+*/
+
 }
