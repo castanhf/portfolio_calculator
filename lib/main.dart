@@ -70,34 +70,18 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-        home: Scaffold(
-            body: Center(
-                // TODO: WHY IS WRONG!!!!
-                child: SfSliderTheme(
-      data: SfSliderThemeData(
-        activeTrackHeight: 5,
-        inactiveTrackHeight: 5,
-        activeTrackColor: const Color(0xff00d09c),
-        inactiveTrackColor: Colors.black12,
-        thumbColor: Colors.white,
-        trackCornerRadius: 0,
-        thumbRadius: 15,
+    return Scaffold(
+      body: Center(
+        child: SfSlider(
+          value: _value,
+          onChanged: (dynamic newValue) {
+            setState(() {
+              _value = newValue;
+            });
+          },
+        ),
       ),
-      child: SfSlider(
-        min: 2.0,
-        max: 10.0,
-        interval: 1,
-        showTicks: true,
-        showLabels: true,
-        value: _value,
-        onChanged: (dynamic newValue) {
-          setState(() {
-            _value = newValue;
-          });
-        },
-      ),
-    ))));
+    );
   }
 
 /* TODO - GET RID OF THIS AFTER UNDERSTANDING THIS METHOD
