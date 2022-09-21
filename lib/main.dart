@@ -71,6 +71,8 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      //TODO - can I add a sfslidertheme into a scaffold?
+      // or should I add the sfslidertheme into the sfslider itself
       body: Center(
         child: SfSlider(
           value: _value,
