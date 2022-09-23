@@ -1,4 +1,5 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart'; //need this to use theme.dart
+import 'package:syncfusion_flutter_core/theme.dart';
 import 'package:syncfusion_flutter_sliders/sliders.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 
@@ -71,10 +72,8 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      //TODO - can I add a sfslidertheme into a scaffold?
-      // or should I add the sfslidertheme into the sfslider itself
-      body: Center(
-        child: SfSlider(
+      body: Column(children: [
+        SfSlider(
           value: _value,
           onChanged: (dynamic newValue) {
             setState(() {
@@ -82,7 +81,46 @@ class _MyHomePageState extends State<MyHomePage> {
             });
           },
         ),
-      ),
+        Scaffold(
+            body: Center(
+                child: SfSliderTheme(
+          data: SfSliderThemeData(
+            thumbRadius: 13,
+          ),
+          child: SfSlider(
+            min: 2.0,
+            max: 10.0,
+            interval: 1,
+            showTicks: true,
+            showLabels: true,
+            value: _value,
+            onChanged: (dynamic newValue) {
+              setState(() {
+                _value = newValue;
+              });
+            },
+          ),
+        ))),
+        Scaffold(
+            body: Center(
+                child: SfSliderTheme(
+          data: SfSliderThemeData(
+            activeTrackHeight: 5,
+            inactiveTrackHeight: 5,
+            activeTrackColor: const Color(0xff00d09c),
+            inactiveTrackColor: Colors.black12,
+            thumbColor: Colors.white,
+            trackCornerRadius: 0,
+            thumbRadius: 15,
+          ),
+          child: SfSlider(
+            min: 500,
+            max: 100000,
+            // We will change this value later
+            value: 800, onChanged: (value) {},
+          ),
+        )))
+      ]),
     );
   }
 
