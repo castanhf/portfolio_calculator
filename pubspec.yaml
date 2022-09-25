@@ -39,6 +39,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   syncfusion_flutter_sliders: ^20.2.50
   syncfusion_flutter_gauges: ^20.2.50
+  intl: ^0.17.0
 
 dev_dependencies:
   flutter_test:

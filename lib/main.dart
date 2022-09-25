@@ -2,6 +2,7 @@ import 'package:flutter/material.dart'; //need this to use theme.dart
 import 'package:syncfusion_flutter_core/theme.dart';
 import 'package:syncfusion_flutter_sliders/sliders.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
+import "package:intl/intl.dart";
 
 void main() {
   runApp(const PortfolioCalculator());
@@ -67,60 +68,53 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
-  double _value = 0.5;
-
   @override
   Widget build(BuildContext context) {
+    double _value = 0.5;
+    final TextEditingController _controller = TextEditingController();
+    NumberFormat decimalFormat = NumberFormat.decimalPattern('en_us');
+    double _monthlyInvestment = 500;
+    _controller.text = '\$' + decimalFormat.format(_monthlyInvestment.floor());
+
     return Scaffold(
-      body: Column(children: [
-        SfSlider(
-          value: _value,
-          onChanged: (dynamic newValue) {
-            setState(() {
-              _value = newValue;
-            });
-          },
-        ),
-        Scaffold(
-            body: Center(
-                child: SfSliderTheme(
-          data: SfSliderThemeData(
-            thumbRadius: 13,
+      body: Column(
+        children: [
+          //TextField had to come first to make this work
+          TextField(
+            controller: _controller,
+            decoration: const InputDecoration(
+              fillColor: Color(0xffe5faf5),
+              filled: true,
+              contentPadding: EdgeInsets.all(15),
+              border: OutlineInputBorder(borderSide: BorderSide.none),
+            ),
+            style: const TextStyle(
+                fontSize: 17, fontWeight: FontWeight.bold, color: Colors.green),
           ),
-          child: SfSlider(
-            min: 2.0,
-            max: 10.0,
-            interval: 1,
-            showTicks: true,
-            showLabels: true,
-            value: _value,
-            onChanged: (dynamic newValue) {
-              setState(() {
-                _value = newValue;
-              });
-            },
+          SfSliderTheme(
+            data: SfSliderThemeData(
+              activeTrackHeight: 5,
+              inactiveTrackHeight: 5,
+              activeTrackColor: const Color(0xff00d09c),
+              inactiveTrackColor: Colors.black12,
+              thumbColor: Colors.white,
+              trackCornerRadius: 0,
+              thumbRadius: 15,
+            ),
+            child: SfSlider(
+                min: 500,
+                max: 100000,
+                value: _monthlyInvestment,
+                onChanged: (dynamic value) {
+                  setState(() {
+                    _monthlyInvestment = value;
+                    _controller.text =
+                        '\$' + decimalFormat.format(_monthlyInvestment.floor());
+                  });
+                }),
           ),
-        ))),
-        Scaffold(
-            body: Center(
-                child: SfSliderTheme(
-          data: SfSliderThemeData(
-            activeTrackHeight: 5,
-            inactiveTrackHeight: 5,
-            activeTrackColor: const Color(0xff00d09c),
-            inactiveTrackColor: Colors.black12,
-            thumbColor: Colors.white,
-            trackCornerRadius: 0,
-            thumbRadius: 15,
-          ),
-          child: SfSlider(
-            min: 500,
-            max: 100000,
-            // We will change this value later
-            value: 800, onChanged: (value) {},
-          ),
-        )))
-      ]),
+        ],
+      ),
     );
   }
 }
