@@ -68,15 +68,17 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
+  //Init or default variables before build is called
+  double monthlyInvestment = 1000;
+
   @override
   Widget build(BuildContext context) {
-    double _value = 0.5;
     final TextEditingController _controller = TextEditingController();
     NumberFormat decimalFormat = NumberFormat.decimalPattern('en_us');
-    double _monthlyInvestment = 500;
-    _controller.text = '\$' + decimalFormat.format(_monthlyInvestment.floor());
+    _controller.text = '\$' + decimalFormat.format(monthlyInvestment.floor());
 
-    return Scaffold(
+    return SafeArea(
+        child: Scaffold(
       body: Column(
         children: [
           //TextField had to come first to make this work
@@ -104,17 +106,18 @@ class _MyHomePageState extends State<MyHomePage> {
             child: SfSlider(
                 min: 500,
                 max: 100000,
-                value: _monthlyInvestment,
-                onChanged: (dynamic value) {
+                value: monthlyInvestment,
+                onChanged: (newValue) {
                   setState(() {
-                    _monthlyInvestment = value;
+                    monthlyInvestment = newValue;
+                    //interpolation used here
                     _controller.text =
-                        '\$' + decimalFormat.format(_monthlyInvestment.floor());
+                        '\$${decimalFormat.format(monthlyInvestment.floor())}';
                   });
                 }),
           ),
         ],
       ),
-    );
+    ));
   }
 }
