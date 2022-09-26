@@ -73,7 +73,7 @@ class _MyHomePageState extends State<MyHomePage> {
     return SafeArea(
         child: Scaffold(
       body: Column(
-        children: monthlyInvestWidget(context),
+        children: investmentWidgets(context),
       ),
     ));
   }
@@ -81,11 +81,14 @@ class _MyHomePageState extends State<MyHomePage> {
   //Init or default variables before build is called
   double monthlyInvestment = 1000;
 
-  List<Widget> monthlyInvestWidget(BuildContext context) {
+  List<Widget> investmentWidgets(BuildContext context) {
     final TextEditingController controller = TextEditingController();
     NumberFormat decimalFormat = NumberFormat.decimalPattern('en_us');
     controller.text = '\$${decimalFormat.format(monthlyInvestment.floor())}';
 
+// TODO - check github link in the guide page
+// make a var res to return instead of returning the whole thing
+// make a method for each widget or where it could make sense
     return [
       //TextField had to come first to make this work
       TextField(
@@ -121,6 +124,42 @@ class _MyHomePageState extends State<MyHomePage> {
                     '\$${decimalFormat.format(monthlyInvestment.floor())}';
               });
             }),
+      ),
+
+      SfRadialGauge(
+        axes: <RadialAxis>[
+          RadialAxis(
+            minimum: 0,
+            maximum: 30,
+            useRangeColorForAxis: true,
+            startAngle: 270,
+            endAngle: 270,
+            showLabels: false,
+            showTicks: false,
+            axisLineStyle: const AxisLineStyle(
+                thicknessUnit: GaugeSizeUnit.factor,
+                thickness: 0.35,
+                color: Color(0xFF98a4ff)),
+            ranges: <GaugeRange>[
+              GaugeRange(
+                  startValue: 0,
+                  endValue: 17,
+                  color: const Color(0xFF98a4ff),
+                  sizeUnit: GaugeSizeUnit.factor,
+                  startWidth: 0.35,
+                  endWidth: 0.35),
+              GaugeRange(
+                  // This will update the gauge based on returns.
+                  // startValue: _expectedReturnRate,
+                  startValue: 5,
+                  endValue: 30,
+                  sizeUnit: GaugeSizeUnit.factor,
+                  color: const Color(0xFF5367ff),
+                  startWidth: 0.35,
+                  endWidth: 0.35),
+            ],
+          ),
+        ],
       ),
     ];
   }
