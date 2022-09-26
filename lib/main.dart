@@ -68,56 +68,60 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
-  //Init or default variables before build is called
-  double monthlyInvestment = 1000;
-
   @override
   Widget build(BuildContext context) {
-    final TextEditingController _controller = TextEditingController();
-    NumberFormat decimalFormat = NumberFormat.decimalPattern('en_us');
-    _controller.text = '\$' + decimalFormat.format(monthlyInvestment.floor());
-
     return SafeArea(
         child: Scaffold(
       body: Column(
-        children: [
-          //TextField had to come first to make this work
-          TextField(
-            controller: _controller,
-            decoration: const InputDecoration(
-              fillColor: Color(0xffe5faf5),
-              filled: true,
-              contentPadding: EdgeInsets.all(15),
-              border: OutlineInputBorder(borderSide: BorderSide.none),
-            ),
-            style: const TextStyle(
-                fontSize: 17, fontWeight: FontWeight.bold, color: Colors.green),
-          ),
-          SfSliderTheme(
-            data: SfSliderThemeData(
-              activeTrackHeight: 5,
-              inactiveTrackHeight: 5,
-              activeTrackColor: const Color(0xff00d09c),
-              inactiveTrackColor: Colors.black12,
-              thumbColor: Colors.white,
-              trackCornerRadius: 0,
-              thumbRadius: 15,
-            ),
-            child: SfSlider(
-                min: 500,
-                max: 100000,
-                value: monthlyInvestment,
-                onChanged: (newValue) {
-                  setState(() {
-                    monthlyInvestment = newValue;
-                    //interpolation used here
-                    _controller.text =
-                        '\$${decimalFormat.format(monthlyInvestment.floor())}';
-                  });
-                }),
-          ),
-        ],
+        children: monthlyInvestWidget(context),
       ),
     ));
+  }
+
+  //Init or default variables before build is called
+  double monthlyInvestment = 1000;
+
+  List<Widget> monthlyInvestWidget(BuildContext context) {
+    final TextEditingController controller = TextEditingController();
+    NumberFormat decimalFormat = NumberFormat.decimalPattern('en_us');
+    controller.text = '\$${decimalFormat.format(monthlyInvestment.floor())}';
+
+    return [
+      //TextField had to come first to make this work
+      TextField(
+        controller: controller,
+        decoration: const InputDecoration(
+          fillColor: Color(0xffe5faf5),
+          filled: true,
+          contentPadding: EdgeInsets.all(15),
+          border: OutlineInputBorder(borderSide: BorderSide.none),
+        ),
+        style: const TextStyle(
+            fontSize: 17, fontWeight: FontWeight.bold, color: Colors.green),
+      ),
+      SfSliderTheme(
+        data: SfSliderThemeData(
+          activeTrackHeight: 5,
+          inactiveTrackHeight: 5,
+          activeTrackColor: const Color(0xff00d09c),
+          inactiveTrackColor: Colors.black12,
+          thumbColor: Colors.white,
+          trackCornerRadius: 0,
+          thumbRadius: 15,
+        ),
+        child: SfSlider(
+            min: 500,
+            max: 100000,
+            value: monthlyInvestment,
+            onChanged: (newValue) {
+              setState(() {
+                monthlyInvestment = newValue;
+                //interpolation used here
+                controller.text =
+                    '\$${decimalFormat.format(monthlyInvestment.floor())}';
+              });
+            }),
+      ),
+    ];
   }
 }
