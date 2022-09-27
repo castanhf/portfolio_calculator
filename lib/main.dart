@@ -4,6 +4,8 @@ import 'package:syncfusion_flutter_sliders/sliders.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 import "package:intl/intl.dart";
 
+import 'windows_layout.dart';
+
 void main() {
   runApp(const PortfolioCalculator());
 }
@@ -70,12 +72,25 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-        child: Scaffold(
-      body: Column(
-        children: investmentWidgets(context),
-      ),
-    ));
+    Widget res;
+
+    if (false) {
+      res = SafeArea(
+          child: Scaffold(
+        body: Column(
+          children: investmentWidgets(context),
+        ),
+      ));
+    } else {
+      res = Scaffold(
+        appBar: AppBar(
+          title: Text(widget.title),
+        ),
+        body: const WindowsLayout(),
+      );
+    }
+
+    return res;
   }
 
   //Init or default variables before build is called
