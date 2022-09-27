@@ -54,108 +54,15 @@ class _WindowsLayoutState extends State<WindowsLayout> {
         children: [
           Column(
             children: <Widget>[
-              SizedBox(
-                width: 350,
-                child: Padding(
-                  padding: const EdgeInsets.all(20.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      const Text(
-                        'Monthly Investment',
-                        style: TextStyle(
-                          fontSize: 15,
-                        ),
-                      ),
-                      SizedBox(
-                        width: 100,
-                        child: TextFormField(
-                          controller: _controller,
-                          decoration: const InputDecoration(
-                            fillColor: Color(0xffe5faf5),
-                            filled: true,
-                            contentPadding: EdgeInsets.only(left: 30),
-                            border:
-                                OutlineInputBorder(borderSide: BorderSide.none),
-                          ),
-                          style: const TextStyle(
-                              fontSize: 17,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.green),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              SizedBox(
-                width: 350,
-                child: SfSliderTheme(
-                  data: SfSliderThemeData(
-                    activeTrackHeight: 5,
-                    inactiveTrackHeight: 5,
-                    activeTrackColor: const Color(0xff00d09c),
-                    inactiveTrackColor: Colors.black12,
-                    thumbColor: Colors.white,
-                    trackCornerRadius: 0,
-                    thumbRadius: 15,
-                  ),
-                  child: SfSlider(
-                      min: 500,
-                      max: 100000,
-                      value: _monthlyInvestment,
-                      onChanged: (dynamic value) {
-                        setState(() {
-                          _monthlyInvestment = value;
-                          _controller.text =
-                              _monthlyInvestment.toStringAsFixed(0);
-                          _investedAmount =
-                              (_monthlyInvestment * 12) * _timePeriod;
-                          i = (_expectedReturnRate) / (12 * 100);
-                          _result = (_monthlyInvestment *
-                                  (((pow((1 + i), (_timePeriod * 12))) - 1) /
-                                      i) *
-                                  (1 + i)) -
-                              _investedAmount;
-                          _totalInvestment = _investedAmount + _result;
-                        });
-                      }),
-                ),
-              ),
-              SizedBox(
-                width: 350,
-                child: Padding(
-                  padding: const EdgeInsets.all(20.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      const Text(
-                        'Expected return rate (p.a)',
-                        style: TextStyle(
-                          fontSize: 15,
-                        ),
-                      ),
-                      SizedBox(
-                        width: 100,
-                        child: TextFormField(
-                          controller: _returnRateController,
-                          decoration: const InputDecoration(
-                            fillColor: Color(0xffe5faf5),
-                            filled: true,
-                            contentPadding: EdgeInsets.only(left: 30),
-                            border:
-                                OutlineInputBorder(borderSide: BorderSide.none),
-                          ),
-                          style: const TextStyle(
-                              fontSize: 17,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.green),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
+              // Monthly investment
+              getTextLabelFromSliderValue(
+                  context, _controller, 'Monthly Investment'),
+              getSliderWidget(context),
+
+              // Expected return rate
+              getTextLabelFromSliderValue(context, _returnRateController,
+                  'Expected return rate (p.a)'), //Exp. return rate
+
               SizedBox(
                 width: 350,
                 child: SfSliderTheme(
@@ -393,5 +300,95 @@ class _WindowsLayoutState extends State<WindowsLayout> {
         ],
       ),
     );
+  }
+
+/* 
+ * Renders a text label with green font and background.
+ * The value follows the slider value
+ */
+  Widget getTextLabelFromSliderValue(BuildContext context,
+      TextEditingController paramController, String textLabel) {
+    Widget res;
+
+    res = SizedBox(
+      width: 350,
+      child: Padding(
+        padding: const EdgeInsets.all(20.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            Text(
+              //had const before Text
+              // 'Monthly Investment',
+              textLabel,
+              style: const TextStyle(
+                fontSize: 15,
+              ),
+            ),
+            SizedBox(
+              width: 100,
+              child: TextFormField(
+                // controller: _controller,
+                controller: paramController,
+                decoration: const InputDecoration(
+                  fillColor: Color(0xffe5faf5),
+                  filled: true,
+                  contentPadding: EdgeInsets.only(left: 30),
+                  border: OutlineInputBorder(borderSide: BorderSide.none),
+                ),
+                style: const TextStyle(
+                    fontSize: 17,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.green),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+
+    return res;
+  }
+
+  /* 
+ * Renders a text label with green font and background.
+ * The value follows the slider value
+ */
+  Widget getSliderWidget(BuildContext context) {
+    Widget res;
+
+    res = SizedBox(
+      width: 350,
+      child: SfSliderTheme(
+        data: SfSliderThemeData(
+          activeTrackHeight: 5,
+          inactiveTrackHeight: 5,
+          activeTrackColor: const Color(0xff00d09c),
+          inactiveTrackColor: Colors.black12,
+          thumbColor: Colors.white,
+          trackCornerRadius: 0,
+          thumbRadius: 15,
+        ),
+        child: SfSlider(
+            min: 500,
+            max: 100000,
+            value: _monthlyInvestment,
+            onChanged: (dynamic value) {
+              setState(() {
+                _monthlyInvestment = value;
+                _controller.text = _monthlyInvestment.toStringAsFixed(0);
+                _investedAmount = (_monthlyInvestment * 12) * _timePeriod;
+                i = (_expectedReturnRate) / (12 * 100);
+                _result = (_monthlyInvestment *
+                        (((pow((1 + i), (_timePeriod * 12))) - 1) / i) *
+                        (1 + i)) -
+                    _investedAmount;
+                _totalInvestment = _investedAmount + _result;
+              });
+            }),
+      ),
+    );
+
+    return res;
   }
 }
