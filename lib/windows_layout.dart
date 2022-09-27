@@ -2,8 +2,9 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_core/theme.dart';
-import 'package:syncfusion_flutter_gauges/gauges.dart';
 import 'package:syncfusion_flutter_sliders/sliders.dart';
+import 'package:syncfusion_flutter_gauges/gauges.dart';
+import 'package:intl/intl.dart';
 
 class WindowsLayout extends StatefulWidget {
   const WindowsLayout({Key? key}) : super(key: key);
@@ -13,7 +14,7 @@ class WindowsLayout extends StatefulWidget {
 }
 
 class _WindowsLayoutState extends State<WindowsLayout> {
-  final TextEditingController _controller = TextEditingController();
+  final TextEditingController _monthlyInvController = TextEditingController();
   final TextEditingController _returnRateController = TextEditingController();
   final TextEditingController _timePeriodController = TextEditingController();
   double _monthlyInvestment = 25000;
@@ -24,9 +25,14 @@ class _WindowsLayoutState extends State<WindowsLayout> {
   late double _result;
   late double i;
 
+  NumberFormat decimalFormat = NumberFormat.decimalPattern('en_us');
+
   @override
   void initState() {
-    _controller.text = _monthlyInvestment.toString();
+    //init  text in currency format
+    _monthlyInvController.text =
+        '\$${decimalFormat.format(_monthlyInvestment.floor())}';
+
     _returnRateController.text = _expectedReturnRate.toString();
     _timePeriodController.text = _timePeriod.toString();
 
@@ -56,7 +62,7 @@ class _WindowsLayoutState extends State<WindowsLayout> {
             children: <Widget>[
               // Monthly investment
               getTextLabelFromSliderValue(
-                  context, _controller, 'Monthly Investment'),
+                  context, _monthlyInvController, 'Monthly Investment'),
               getSliderWidget(context),
 
               // Expected return rate
@@ -173,7 +179,8 @@ class _WindowsLayoutState extends State<WindowsLayout> {
                     children: <Widget>[
                       const Text('Invested Amount'),
                       Text(
-                        _investedAmount.toStringAsFixed(0),
+                        //currency label
+                        '\$${decimalFormat.format(_investedAmount.floor())}',
                         style: const TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.bold,
@@ -192,7 +199,8 @@ class _WindowsLayoutState extends State<WindowsLayout> {
                     children: <Widget>[
                       const Text('Est. returns'),
                       Text(
-                        _result.toStringAsFixed(0),
+                        //currency label
+                        '\$${decimalFormat.format(_result.floor())}',
                         style: const TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.bold,
@@ -211,7 +219,8 @@ class _WindowsLayoutState extends State<WindowsLayout> {
                     children: <Widget>[
                       const Text('Total value'),
                       Text(
-                        _totalInvestment.toStringAsFixed(0),
+                        //currency label
+                        '\$${decimalFormat.format(_totalInvestment.floor())}',
                         style: const TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.bold,
@@ -328,7 +337,6 @@ class _WindowsLayoutState extends State<WindowsLayout> {
             SizedBox(
               width: 100,
               child: TextFormField(
-                // controller: _controller,
                 controller: paramController,
                 decoration: const InputDecoration(
                   fillColor: Color(0xffe5faf5),
@@ -376,7 +384,8 @@ class _WindowsLayoutState extends State<WindowsLayout> {
             onChanged: (dynamic value) {
               setState(() {
                 _monthlyInvestment = value;
-                _controller.text = _monthlyInvestment.toStringAsFixed(0);
+                _monthlyInvController.text =
+                    '\$${decimalFormat.format(_monthlyInvestment.floor())}';
                 _investedAmount = (_monthlyInvestment * 12) * _timePeriod;
                 i = (_expectedReturnRate) / (12 * 100);
                 _result = (_monthlyInvestment *
