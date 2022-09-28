@@ -63,12 +63,16 @@ class _WindowsLayoutState extends State<WindowsLayout> {
               // Monthly investment
               getTextLabelFromSliderValue(
                   context, _monthlyInvController, 'Monthly Investment'),
-              getSliderWidget(context),
+              getSliderThemeWidget(context),
 
               // Expected return rate
               getTextLabelFromSliderValue(context, _returnRateController,
                   'Expected return rate (p.a)'), //Exp. return rate
 
+// TODO - might try change getSliderThemeWidget function
+// to cover the whole thing, instead of making
+// one method (getSfSliderWidget) to cover one section
+// of code for a slider
               SizedBox(
                 width: 350,
                 child: SfSliderTheme(
@@ -327,8 +331,6 @@ class _WindowsLayoutState extends State<WindowsLayout> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             Text(
-              //had const before Text
-              // 'Monthly Investment',
               textLabel,
               style: const TextStyle(
                 fontSize: 15,
@@ -358,11 +360,11 @@ class _WindowsLayoutState extends State<WindowsLayout> {
     return res;
   }
 
-  /* 
+/* 
  * Renders a text label with green font and background.
  * The value follows the slider value
  */
-  Widget getSliderWidget(BuildContext context) {
+  Widget getSliderThemeWidget(BuildContext context) {
     Widget res;
 
     res = SizedBox(
@@ -397,6 +399,37 @@ class _WindowsLayoutState extends State<WindowsLayout> {
             }),
       ),
     );
+
+    return res;
+  }
+
+/* 
+ * Build the SfSlider with
+ * int min
+ * int max
+ * double value
+ */
+  Widget getSfSliderWidget(
+      BuildContext context, dynamic slMin, dynamic slMax, double slValue) {
+    Widget res;
+
+    res = SfSlider(
+        min: slMin,
+        max: slMax,
+        value: slValue,
+        onChanged: (dynamic value) {
+          setState(() {
+            slValue = value as dynamic;
+            _returnRateController.text = slValue.toStringAsFixed(0);
+            i = (slValue) / (12 * 100);
+            _result = (_monthlyInvestment *
+                    (((pow((1 + i), (_timePeriod * 12))) - 1) / i) *
+                    (1 + i)) -
+                _investedAmount;
+            // print(_result.toStringAsFixed(0));
+            _totalInvestment = _investedAmount + _result;
+          });
+        });
 
     return res;
   }
