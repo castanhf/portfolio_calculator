@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:portfolio_calculator/controllerObjects.dart';
 import 'package:syncfusion_flutter_core/theme.dart';
 import 'package:syncfusion_flutter_sliders/sliders.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
@@ -20,6 +21,10 @@ class _WindowsLayoutState extends State<WindowsLayout> {
   double _monthlyInvestment = 25000;
   double _expectedReturnRate = 12;
   double _timePeriod = 10;
+  // TODO - TRYING SOMETHING HERE
+  late MonthlyInvObject monInvObj =
+      MonthlyInvObject(_monthlyInvestment, _monthlyInvController);
+
   late double _investedAmount;
   late double _totalInvestment;
   late double _result;
@@ -389,16 +394,18 @@ class _WindowsLayoutState extends State<WindowsLayout> {
  * int max
  * double value
  */
-  Widget getSfSliderWidget(BuildContext context, dynamic slidMin,
-      dynamic slidMax, double slidValue) {
+  Widget getSfSliderWidget(
+      BuildContext context, dynamic slidMin, dynamic slidMax, Object classObj) {
     Widget res;
 
     res = SfSlider(
         min: slidMin,
         max: slidMax,
-        value: slidValue,
+        // value: slidValue,
+        // TODO - CHANGE THIS AFTER FIXING STUFF
+        value: _monthlyInvestment,
         onChanged: (dynamic value) {
-          setMonthlyInvState(value);
+          setControllerState(value);
         });
 
     return res;
@@ -406,7 +413,7 @@ class _WindowsLayoutState extends State<WindowsLayout> {
 
   //how to distinguish between this set state than others?!
   //make an object or class with controller info?
-  void setMonthlyInvState(dynamic value) {
+  void setControllerState(dynamic value) {
     setState(() {
       _monthlyInvestment = value;
       _monthlyInvController.text =
