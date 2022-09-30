@@ -1,16 +1,30 @@
 import 'package:flutter/material.dart';
 
-class MonthlyInvObject extends Object {
-  double _monthlyInvestment;
-
-  TextEditingController _monthlyInvController;
+class ControllerObject extends Object {
+  double controllerValue = 0;
+  TextEditingController txtEditContr = TextEditingController();
 
   /* 
   * Constructor
   */
-  MonthlyInvObject(this._monthlyInvestment, this._monthlyInvController);
+  ControllerObject(this.controllerValue, this.txtEditContr);
 
-  void setMonthInvestValue(double monInv) {
-    _monthlyInvestment = monInv;
+  /*
+  * Set state. Override this
+  */
+  void setControllerValue(double nContVal) {
+    controllerValue = nContVal;
   }
+
+  /*
+  * Set state. Override this
+  */
+  void setControllerState() {}
+}
+
+class MonthlyInvObject extends ControllerObject {
+  /* 
+  * Constructor
+  */
+  MonthlyInvObject(super.contollerValue, super.txtEditContr);
 }

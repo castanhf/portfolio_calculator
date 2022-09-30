@@ -18,16 +18,18 @@ class _WindowsLayoutState extends State<WindowsLayout> {
   final TextEditingController _monthlyInvController = TextEditingController();
   final TextEditingController _returnRateController = TextEditingController();
   final TextEditingController _timePeriodController = TextEditingController();
+  // ignore: prefer_final_fields
   double _monthlyInvestment = 25000;
   double _expectedReturnRate = 12;
   double _timePeriod = 10;
-  // TODO - TRYING SOMETHING HERE
-  late MonthlyInvObject monInvObj =
+
+  // Controller objects declaration
+  late MonthlyInvObject monInvObject =
       MonthlyInvObject(_monthlyInvestment, _monthlyInvController);
 
   late double _investedAmount;
+  late double _estimatedReturns;
   late double _totalInvestment;
-  late double _result;
   late double i;
 
   NumberFormat decimalFormat = NumberFormat.decimalPattern('en_us');
@@ -35,22 +37,22 @@ class _WindowsLayoutState extends State<WindowsLayout> {
   @override
   void initState() {
     //init  text in currency format
-    _monthlyInvController.text =
-        '\$${decimalFormat.format(_monthlyInvestment.floor())}';
+    monInvObject.txtEditContr.text =
+        '\$${decimalFormat.format(monInvObject.controllerValue.floor())}';
 
-    _returnRateController.text = _expectedReturnRate.toString();
+    _returnRateController.text = _expectedReturnRate.toStringAsFixed(0);
     _timePeriodController.text = _timePeriod.toString();
 
-    _investedAmount = (_monthlyInvestment * 12) * _timePeriod;
+    _investedAmount = (monInvObject.controllerValue * 12) * _timePeriod;
 
     i = (_expectedReturnRate) / (12 * 100);
 
-    _result = (_monthlyInvestment *
+    _estimatedReturns = (monInvObject.controllerValue *
             (((pow((1 + i), (_timePeriod * 12))) - 1) / i) *
             (1 + i)) -
         _investedAmount;
 
-    _totalInvestment = _investedAmount + _result;
+    _totalInvestment = _investedAmount + _estimatedReturns;
     super.initState();
   }
 
@@ -67,8 +69,8 @@ class _WindowsLayoutState extends State<WindowsLayout> {
             children: <Widget>[
               // Monthly investment
               getTextLabelFromSliderValue(
-                  context, _monthlyInvController, 'Monthly Investment'),
-              getSliderThemeWidget(context, 500, 100000, _monthlyInvestment),
+                  context, monInvObject.txtEditContr, 'Monthly Investment'),
+              getSliderThemeWidget(context, 500, 100000, monInvObject),
 
               // Expected return rate
               getTextLabelFromSliderValue(context, _returnRateController,
@@ -96,12 +98,13 @@ class _WindowsLayoutState extends State<WindowsLayout> {
                           _returnRateController.text =
                               _expectedReturnRate.toStringAsFixed(0);
                           i = (_expectedReturnRate) / (12 * 100);
-                          _result = (_monthlyInvestment *
+                          _estimatedReturns = (monInvObject.controllerValue *
                                   (((pow((1 + i), (_timePeriod * 12))) - 1) /
                                       i) *
                                   (1 + i)) -
                               _investedAmount;
-                          _totalInvestment = _investedAmount + _result;
+                          _totalInvestment =
+                              _investedAmount + _estimatedReturns;
                         });
                       }),
                 ),
@@ -162,14 +165,15 @@ class _WindowsLayoutState extends State<WindowsLayout> {
                           _timePeriodController.text =
                               _timePeriod.toStringAsFixed(0);
                           _investedAmount =
-                              (_monthlyInvestment * 12) * _timePeriod;
+                              (monInvObject.controllerValue * 12) * _timePeriod;
                           i = (_expectedReturnRate) / (12 * 100);
-                          _result = (_monthlyInvestment *
+                          _estimatedReturns = (monInvObject.controllerValue *
                                   (((pow((1 + i), (_timePeriod * 12))) - 1) /
                                       i) *
                                   (1 + i)) -
                               _investedAmount;
-                          _totalInvestment = _investedAmount + _result;
+                          _totalInvestment =
+                              _investedAmount + _estimatedReturns;
                         });
                       }),
                 ),
@@ -205,7 +209,7 @@ class _WindowsLayoutState extends State<WindowsLayout> {
                       const Text('Est. returns'),
                       Text(
                         //currency label
-                        '\$${decimalFormat.format(_result.floor())}',
+                        '\$${decimalFormat.format(_estimatedReturns.floor())}',
                         style: const TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.bold,
@@ -366,7 +370,7 @@ class _WindowsLayoutState extends State<WindowsLayout> {
  * The value follows the slider value
  */
   Widget getSliderThemeWidget(BuildContext context, dynamic slidMin,
-      dynamic slidMax, double slidValue) {
+      dynamic slidMax, ControllerObject controllerObject) {
     Widget res;
 
     res = SizedBox(
@@ -381,7 +385,7 @@ class _WindowsLayoutState extends State<WindowsLayout> {
           trackCornerRadius: 0,
           thumbRadius: 15,
         ),
-        child: getSfSliderWidget(context, slidMin, slidMax, slidValue),
+        child: getSfSliderWidget(context, slidMin, slidMax, controllerObject),
       ),
     );
 
@@ -394,18 +398,16 @@ class _WindowsLayoutState extends State<WindowsLayout> {
  * int max
  * double value
  */
-  Widget getSfSliderWidget(
-      BuildContext context, dynamic slidMin, dynamic slidMax, Object classObj) {
+  Widget getSfSliderWidget(BuildContext context, dynamic slidMin,
+      dynamic slidMax, ControllerObject controllerObject) {
     Widget res;
 
     res = SfSlider(
         min: slidMin,
         max: slidMax,
-        // value: slidValue,
-        // TODO - CHANGE THIS AFTER FIXING STUFF
-        value: _monthlyInvestment,
+        value: controllerObject.controllerValue,
         onChanged: (dynamic value) {
-          setControllerState(value);
+          setControllerState(value, controllerObject);
         });
 
     return res;
@@ -413,18 +415,21 @@ class _WindowsLayoutState extends State<WindowsLayout> {
 
   //how to distinguish between this set state than others?!
   //make an object or class with controller info?
-  void setControllerState(dynamic value) {
+  void setControllerState(dynamic value, ControllerObject controllerObject) {
     setState(() {
-      _monthlyInvestment = value;
-      _monthlyInvController.text =
-          '\$${decimalFormat.format(_monthlyInvestment.floor())}';
-      _investedAmount = (_monthlyInvestment * 12) * _timePeriod;
+      double controlVal = 0;
+
+      controllerObject.setControllerValue(value);
+      controlVal = controllerObject.controllerValue;
+      monInvObject.txtEditContr.text =
+          '\$${decimalFormat.format(controlVal.floor())}';
+      _investedAmount = (controlVal * 12) * _timePeriod;
       i = (_expectedReturnRate) / (12 * 100);
-      _result = (_monthlyInvestment *
+      _estimatedReturns = (controlVal *
               (((pow((1 + i), (_timePeriod * 12))) - 1) / i) *
               (1 + i)) -
           _investedAmount;
-      _totalInvestment = _investedAmount + _result;
+      _totalInvestment = _investedAmount + _estimatedReturns;
     });
   }
 }
