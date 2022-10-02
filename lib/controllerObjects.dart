@@ -41,3 +41,13 @@ class EstimatedReturnObject extends ControllerObject {
   */
   EstimatedReturnObject(super.contollerValue, super.txtEditContr);
 }
+
+/*
+ * Time Period object class
+ */
+class TimePeriodControllerObject extends ControllerObject {
+  /* 
+  * Constructor
+  */
+  TimePeriodControllerObject(super.contollerValue, super.txtEditContr);
+}
