@@ -25,21 +25,21 @@ class ControllerObject extends Object {
 /*
  * Monthly Investment object class
  */
-class MonthlyInvObject extends ControllerObject {
+class MonthlyInvControllerObject extends ControllerObject {
   /* 
   * Constructor
   */
-  MonthlyInvObject(super.contollerValue, super.txtEditContr);
+  MonthlyInvControllerObject(super.contollerValue, super.txtEditContr);
 }
 
 /*
  * Monthly Investment object class
  */
-class EstimatedReturnObject extends ControllerObject {
+class EstimatedReturnControllerObject extends ControllerObject {
   /* 
   * Constructor
   */
-  EstimatedReturnObject(super.contollerValue, super.txtEditContr);
+  EstimatedReturnControllerObject(super.contollerValue, super.txtEditContr);
 }
 
 /*

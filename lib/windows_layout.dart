@@ -24,8 +24,13 @@ class _WindowsLayoutState extends State<WindowsLayout> {
   double _timePeriod = 10;
 
   // Controller objects declaration
-  late MonthlyInvObject monInvObject =
-      MonthlyInvObject(_monthlyInvestment, _monthlyInvController);
+  late MonthlyInvControllerObject monInvObject =
+      MonthlyInvControllerObject(_monthlyInvestment, _monthlyInvController);
+  late EstimatedReturnControllerObject retRateObject =
+      EstimatedReturnControllerObject(
+          _expectedReturnRate, _returnRateController);
+  late TimePeriodControllerObject timePeriodObject =
+      TimePeriodControllerObject(_timePeriod, _timePeriodController);
 
   late double _investedAmount;
   late double _estimatedReturns;
