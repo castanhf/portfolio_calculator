@@ -26,9 +26,11 @@ class _WindowsLayoutState extends State<WindowsLayout> {
   // Controller objects declaration
   late MonthlyInvControllerObject monInvObject =
       MonthlyInvControllerObject(_monthlyInvestment, _monthlyInvController);
+
   late EstimatedReturnControllerObject retRateObject =
       EstimatedReturnControllerObject(
           _expectedReturnRate, _returnRateController);
+
   late TimePeriodControllerObject timePeriodObject =
       TimePeriodControllerObject(_timePeriod, _timePeriodController);
 
@@ -78,10 +80,10 @@ class _WindowsLayoutState extends State<WindowsLayout> {
               getSliderThemeWidget(context, 500, 100000, monInvObject),
 
               // Expected return rate
-              getTextLabelFromSliderValue(context, _returnRateController,
+              getTextLabelFromSliderValue(context, retRateObject.txtEditContr,
                   'Expected return rate (p.a)'), //Exp. return rate
-
-              SizedBox(
+              getSliderThemeWidget(context, 1, 30, retRateObject),
+              /* SizedBox(
                 width: 350,
                 child: SfSliderTheme(
                   data: SfSliderThemeData(
@@ -113,7 +115,7 @@ class _WindowsLayoutState extends State<WindowsLayout> {
                         });
                       }),
                 ),
-              ),
+              ), */
               SizedBox(
                 width: 350,
                 child: Padding(
@@ -418,22 +420,35 @@ class _WindowsLayoutState extends State<WindowsLayout> {
     return res;
   }
 
-  //how to distinguish between this set state than others?!
-  //make an object or class with controller info?
+  /* 
+   * Making a set state helper method here that works similarly to each
+   * different Controller Object.
+   */
   void setControllerState(dynamic value, ControllerObject controllerObject) {
     setState(() {
       double controlVal = 0;
 
       controllerObject.setControllerValue(value);
       controlVal = controllerObject.controllerValue;
-      monInvObject.txtEditContr.text =
-          '\$${decimalFormat.format(controlVal.floor())}';
-      _investedAmount = (controlVal * 12) * _timePeriod;
-      i = (_expectedReturnRate) / (12 * 100);
-      _estimatedReturns = (controlVal *
+
+      // TODO - this method body needs review
+
+      // Some controller objs do not do the same calcs, so we need
+      // this if block to check that for us.
+      if (controllerObject is MonthlyInvControllerObject) {
+        controllerObject.txtEditContr.text =
+            '\$${decimalFormat.format(controlVal.floor())}';
+        _investedAmount = (controlVal * 12) * _timePeriod;
+      } else {
+        controllerObject.txtEditContr.text = controlVal.toStringAsFixed(0);
+      }
+
+      i = (retRateObject.controllerValue) / (12 * 100);
+      _estimatedReturns = (monInvObject.controllerValue *
               (((pow((1 + i), (_timePeriod * 12))) - 1) / i) *
               (1 + i)) -
           _investedAmount;
+
       _totalInvestment = _investedAmount + _estimatedReturns;
     });
   }

@@ -19,7 +19,7 @@ class ControllerObject extends Object {
   /*
   * Set state. Override this
   */
-  void setControllerState() {}
+  void setControllerState(dynamic value) {}
 }
 
 /*
@@ -30,6 +30,12 @@ class MonthlyInvControllerObject extends ControllerObject {
   * Constructor
   */
   MonthlyInvControllerObject(super.contollerValue, super.txtEditContr);
+
+  /*
+  * Set state. Override this
+  */
+  @override
+  void setControllerState(dynamic value) {}
 }
 
 /*
