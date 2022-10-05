@@ -116,40 +116,11 @@ class _WindowsLayoutState extends State<WindowsLayout> {
                       }),
                 ),
               ), */
-              SizedBox(
-                width: 350,
-                child: Padding(
-                  padding: const EdgeInsets.all(20.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      const Text(
-                        'Time period',
-                        style: TextStyle(
-                          fontSize: 15,
-                        ),
-                      ),
-                      SizedBox(
-                        width: 100,
-                        child: TextFormField(
-                          controller: _timePeriodController,
-                          decoration: const InputDecoration(
-                            fillColor: Color(0xffe5faf5),
-                            filled: true,
-                            contentPadding: EdgeInsets.only(left: 30),
-                            border:
-                                OutlineInputBorder(borderSide: BorderSide.none),
-                          ),
-                          style: const TextStyle(
-                              fontSize: 17,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.green),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
+
+              // Time Period
+              getTextLabelFromSliderValue(context,
+                  timePeriodObject.txtEditContr, 'Time Period'), //Time Period
+
               SizedBox(
                 width: 350,
                 child: SfSliderTheme(
