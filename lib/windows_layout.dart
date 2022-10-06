@@ -83,39 +83,6 @@ class _WindowsLayoutState extends State<WindowsLayout> {
               getTextLabelFromSliderValue(context, retRateObject.txtEditContr,
                   'Expected return rate (p.a)'), //Exp. return rate
               getSliderThemeWidget(context, 1, 30, retRateObject),
-              /* SizedBox(
-                width: 350,
-                child: SfSliderTheme(
-                  data: SfSliderThemeData(
-                    activeTrackHeight: 5,
-                    inactiveTrackHeight: 5,
-                    activeTrackColor: const Color(0xff00d09c),
-                    inactiveTrackColor: Colors.black12,
-                    thumbColor: Colors.white,
-                    trackCornerRadius: 0,
-                    thumbRadius: 15,
-                  ),
-                  child: SfSlider(
-                      min: 1,
-                      max: 30,
-                      value: _expectedReturnRate,
-                      onChanged: (dynamic value) {
-                        setState(() {
-                          _expectedReturnRate = value;
-                          _returnRateController.text =
-                              _expectedReturnRate.toStringAsFixed(0);
-                          i = (_expectedReturnRate) / (12 * 100);
-                          _estimatedReturns = (monInvObject.controllerValue *
-                                  (((pow((1 + i), (_timePeriod * 12))) - 1) /
-                                      i) *
-                                  (1 + i)) -
-                              _investedAmount;
-                          _totalInvestment =
-                              _investedAmount + _estimatedReturns;
-                        });
-                      }),
-                ),
-              ), */
 
               // Time Period
               getTextLabelFromSliderValue(context,
