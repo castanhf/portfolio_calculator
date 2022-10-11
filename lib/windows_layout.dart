@@ -87,42 +87,8 @@ class _WindowsLayoutState extends State<WindowsLayout> {
               // Time Period
               getTextLabelFromSliderValue(context,
                   timePeriodObject.txtEditContr, 'Time Period'), //Time Period
+              getSliderThemeWidget(context, 1, 30, timePeriodObject),
 
-              SizedBox(
-                width: 350,
-                child: SfSliderTheme(
-                  data: SfSliderThemeData(
-                    activeTrackHeight: 5,
-                    inactiveTrackHeight: 5,
-                    activeTrackColor: const Color(0xff00d09c),
-                    inactiveTrackColor: Colors.black12,
-                    thumbColor: Colors.white,
-                    trackCornerRadius: 0,
-                    thumbRadius: 15,
-                  ),
-                  child: SfSlider(
-                      min: 1,
-                      max: 30,
-                      value: _timePeriod,
-                      onChanged: (dynamic value) {
-                        setState(() {
-                          _timePeriod = value;
-                          _timePeriodController.text =
-                              _timePeriod.toStringAsFixed(0);
-                          _investedAmount =
-                              (monInvObject.controllerValue * 12) * _timePeriod;
-                          i = (_expectedReturnRate) / (12 * 100);
-                          _estimatedReturns = (monInvObject.controllerValue *
-                                  (((pow((1 + i), (_timePeriod * 12))) - 1) /
-                                      i) *
-                                  (1 + i)) -
-                              _investedAmount;
-                          _totalInvestment =
-                              _investedAmount + _estimatedReturns;
-                        });
-                      }),
-                ),
-              ),
               const SizedBox(height: 50),
               SizedBox(
                 width: 350,
@@ -377,6 +343,9 @@ class _WindowsLayoutState extends State<WindowsLayout> {
         controllerObject.txtEditContr.text =
             '\$${decimalFormat.format(controlVal.floor())}';
         _investedAmount = (controlVal * 12) * _timePeriod;
+      } else if (controllerObject is TimePeriodControllerObject) {
+        controllerObject.txtEditContr.text = controlVal.toStringAsFixed(0);
+        _investedAmount = (monInvObject.controllerValue * 12) * controlVal;
       } else {
         controllerObject.txtEditContr.text = controlVal.toStringAsFixed(0);
       }
