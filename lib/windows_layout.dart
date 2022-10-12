@@ -90,7 +90,10 @@ class _WindowsLayoutState extends State<WindowsLayout> {
               getSliderThemeWidget(context, 1, 30, timePeriodObject),
 
               const SizedBox(height: 50),
-              SizedBox(
+
+              getRegularTextLabel(context, 'Invested Amount iHey'),
+
+/*               SizedBox(
                 width: 350,
                 child: Padding(
                   padding: const EdgeInsets.all(20.0),
@@ -110,6 +113,8 @@ class _WindowsLayoutState extends State<WindowsLayout> {
                   ),
                 ),
               ),
+ */
+
               SizedBox(
                 width: 350,
                 child: Padding(
@@ -229,6 +234,37 @@ class _WindowsLayoutState extends State<WindowsLayout> {
         ],
       ),
     );
+  }
+
+  /* 
+ * Renders a text label with green font and background.
+ * The value follows the slider value
+ */
+  Widget getRegularTextLabel(BuildContext context, String textLabel) {
+    Widget res;
+
+    res = SizedBox(
+      width: 350,
+      child: Padding(
+        padding: const EdgeInsets.all(20.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            Text(textLabel),
+            Text(
+              //currency label
+              '\$${decimalFormat.format(_investedAmount.floor())}',
+              style: const TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+
+    return res;
   }
 
 /* 
