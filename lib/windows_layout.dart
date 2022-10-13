@@ -91,7 +91,8 @@ class _WindowsLayoutState extends State<WindowsLayout> {
 
               const SizedBox(height: 50),
 
-              getRegularTextLabel(context, 'Invested Amount iHey'),
+              //Invested Amount
+              getRegularTextLabel(context, 'Invested Amount'),
 
 /*               SizedBox(
                 width: 350,
@@ -114,6 +115,9 @@ class _WindowsLayoutState extends State<WindowsLayout> {
                 ),
               ),
  */
+
+              //Invested Amount
+              getRegularTextLabel(context, 'Est. returns i Hey'),
 
               SizedBox(
                 width: 350,
@@ -252,7 +256,7 @@ class _WindowsLayoutState extends State<WindowsLayout> {
           children: <Widget>[
             Text(textLabel),
             Text(
-              //currency label
+              //TODO - gotta change _investedAmount
               '\$${decimalFormat.format(_investedAmount.floor())}',
               style: const TextStyle(
                 fontSize: 14,
