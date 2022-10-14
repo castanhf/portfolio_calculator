@@ -92,53 +92,14 @@ class _WindowsLayoutState extends State<WindowsLayout> {
               const SizedBox(height: 50),
 
               //Invested Amount
-              getRegularTextLabel(context, 'Invested Amount'),
+              getRegularTextLabel(context, 'Invested Amount', _investedAmount),
 
-/*               SizedBox(
-                width: 350,
-                child: Padding(
-                  padding: const EdgeInsets.all(20.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      const Text('Invested Amount'),
-                      Text(
-                        //currency label
-                        '\$${decimalFormat.format(_investedAmount.floor())}',
-                        style: const TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
- */
+              //Estimated Returns
+              getRegularTextLabel(context, 'Est. returns', _estimatedReturns),
 
-              //Invested Amount
-              getRegularTextLabel(context, 'Est. returns i Hey'),
-
-              SizedBox(
-                width: 350,
-                child: Padding(
-                  padding: const EdgeInsets.all(20.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      const Text('Est. returns'),
-                      Text(
-                        //currency label
-                        '\$${decimalFormat.format(_estimatedReturns.floor())}',
-                        style: const TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
+              //Total investment
+              getRegularTextLabel(context, 'Total value', _totalInvestment),
+/* 
               SizedBox(
                 width: 350,
                 child: Padding(
@@ -159,6 +120,7 @@ class _WindowsLayoutState extends State<WindowsLayout> {
                   ),
                 ),
               )
+ */
             ],
           ),
           Column(
@@ -244,7 +206,8 @@ class _WindowsLayoutState extends State<WindowsLayout> {
  * Renders a text label with green font and background.
  * The value follows the slider value
  */
-  Widget getRegularTextLabel(BuildContext context, String textLabel) {
+  Widget getRegularTextLabel(
+      BuildContext context, String textLabel, double amount) {
     Widget res;
 
     res = SizedBox(
@@ -257,7 +220,7 @@ class _WindowsLayoutState extends State<WindowsLayout> {
             Text(textLabel),
             Text(
               //TODO - gotta change _investedAmount
-              '\$${decimalFormat.format(_investedAmount.floor())}',
+              '\$${decimalFormat.format(amount.floor())}',
               style: const TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.bold,
