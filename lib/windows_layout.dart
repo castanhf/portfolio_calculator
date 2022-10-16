@@ -99,28 +99,6 @@ class _WindowsLayoutState extends State<WindowsLayout> {
 
               //Total investment
               getRegularTextLabel(context, 'Total value', _totalInvestment),
-/* 
-              SizedBox(
-                width: 350,
-                child: Padding(
-                  padding: const EdgeInsets.all(20.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      const Text('Total value'),
-                      Text(
-                        //currency label
-                        '\$${decimalFormat.format(_totalInvestment.floor())}',
-                        style: const TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              )
- */
             ],
           ),
           Column(
