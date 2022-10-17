@@ -2,10 +2,13 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:portfolio_calculator/controllerObjects.dart';
+import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_core/theme.dart';
 import 'package:syncfusion_flutter_sliders/sliders.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 import 'package:intl/intl.dart';
+
+import 'theme_manager/ThemeManager.dart';
 
 class WindowsLayout extends StatefulWidget {
   const WindowsLayout({Key? key}) : super(key: key);
@@ -72,6 +75,40 @@ class _WindowsLayoutState extends State<WindowsLayout> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
+          Row(mainAxisAlignment: MainAxisAlignment.end, children: [
+            Consumer<ThemeNotifier>(
+              builder: (context, theme, _) => MaterialApp(
+                theme: theme.getTheme(),
+                home: Scaffold(
+                  appBar: AppBar(
+                    title: Text('Hybrid Theme'),
+                  ),
+                  body: Row(
+                    children: [
+                      Container(
+                        child: TextButton(
+                          onPressed: () => {
+                            print('Set Light Theme'),
+                            theme.setLightMode(),
+                          },
+                          child: Text('Set Light Theme'),
+                        ),
+                      ),
+                      Container(
+                        child: TextButton(
+                          onPressed: () => {
+                            print('Set Dark theme'),
+                            theme.setDarkMode(),
+                          },
+                          child: Text('Set Dark theme'),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            )
+          ]),
           Column(
             children: <Widget>[
               // Monthly investment

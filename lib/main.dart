@@ -1,12 +1,20 @@
 import 'package:flutter/material.dart'; //need this to use theme.dart
+import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_core/theme.dart';
 import 'package:syncfusion_flutter_sliders/sliders.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 import "package:intl/intl.dart";
 
 import 'windows_layout.dart';
+import 'theme_manager/ThemeManager.dart';
 
 void main() {
+  return runApp(ChangeNotifierProvider<ThemeNotifier>(
+    // ignore: unnecessary_new
+    create: (_) => new ThemeNotifier(),
+    child: const PortfolioCalculator(),
+    // child: runApp(const PortfolioCalculator()),
+  ));
   runApp(const PortfolioCalculator());
 }
 
@@ -74,108 +82,13 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     Widget res;
 
-    if (false) {
-      res = SafeArea(
-          child: Scaffold(
-        body: Column(
-          children: investmentWidgets(context),
-        ),
-      ));
-    } else {
-      res = Scaffold(
-        appBar: AppBar(
-          title: Text(widget.title),
-        ),
-        body: const WindowsLayout(),
-      );
-    }
+    res = Scaffold(
+      appBar: AppBar(
+        title: Text(widget.title),
+      ),
+      body: const WindowsLayout(),
+    );
 
     return res;
-  }
-
-  //Init or default variables before build is called
-  double monthlyInvestment = 1000;
-
-  List<Widget> investmentWidgets(BuildContext context) {
-    final TextEditingController controller = TextEditingController();
-    NumberFormat decimalFormat = NumberFormat.decimalPattern('en_us');
-    controller.text = '\$${decimalFormat.format(monthlyInvestment.floor())}';
-
-// TODO - check github link in the guide page
-// make a var res to return instead of returning the whole thing
-// make a method for each widget or where it could make sense
-    return [
-      //TextField had to come first to make this work
-      TextField(
-        controller: controller,
-        decoration: const InputDecoration(
-          fillColor: Color(0xffe5faf5),
-          filled: true,
-          contentPadding: EdgeInsets.all(15),
-          border: OutlineInputBorder(borderSide: BorderSide.none),
-        ),
-        style: const TextStyle(
-            fontSize: 17, fontWeight: FontWeight.bold, color: Colors.green),
-      ),
-      SfSliderTheme(
-        data: SfSliderThemeData(
-          activeTrackHeight: 5,
-          inactiveTrackHeight: 5,
-          activeTrackColor: const Color(0xff00d09c),
-          inactiveTrackColor: Colors.black12,
-          thumbColor: Colors.white,
-          trackCornerRadius: 0,
-          thumbRadius: 15,
-        ),
-        child: SfSlider(
-            min: 500,
-            max: 100000,
-            value: monthlyInvestment,
-            onChanged: (newValue) {
-              setState(() {
-                monthlyInvestment = newValue;
-                //interpolation used here
-                controller.text =
-                    '\$${decimalFormat.format(monthlyInvestment.floor())}';
-              });
-            }),
-      ),
-
-      SfRadialGauge(
-        axes: <RadialAxis>[
-          RadialAxis(
-            minimum: 0,
-            maximum: 30,
-            useRangeColorForAxis: true,
-            startAngle: 270,
-            endAngle: 270,
-            showLabels: false,
-            showTicks: false,
-            axisLineStyle: const AxisLineStyle(
-                thicknessUnit: GaugeSizeUnit.factor,
-                thickness: 0.35,
-                color: Color(0xFF98a4ff)),
-            ranges: <GaugeRange>[
-              GaugeRange(
-                  startValue: 0,
-                  endValue: 17,
-                  color: const Color(0xFF98a4ff),
-                  sizeUnit: GaugeSizeUnit.factor,
-                  startWidth: 0.35,
-                  endWidth: 0.35),
-              GaugeRange(
-                  // This will update the gauge based on returns.
-                  // startValue: _expectedReturnRate,
-                  startValue: 5,
-                  endValue: 30,
-                  sizeUnit: GaugeSizeUnit.factor,
-                  color: const Color(0xFF5367ff),
-                  startWidth: 0.35,
-                  endWidth: 0.35),
-            ],
-          ),
-        ],
-      ),
-    ];
   }
 }
