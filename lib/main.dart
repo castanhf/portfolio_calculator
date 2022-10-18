@@ -1,8 +1,4 @@
 import 'package:flutter/material.dart'; //need this to use theme.dart
-import 'package:syncfusion_flutter_core/theme.dart';
-import 'package:syncfusion_flutter_sliders/sliders.dart';
-import 'package:syncfusion_flutter_gauges/gauges.dart';
-import "package:intl/intl.dart";
 
 import 'windows_layout.dart';
 
