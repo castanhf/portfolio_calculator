@@ -1,5 +1,4 @@
-import 'package:flutter/material.dart'; //need this to use theme.dart
-
+import 'package:flutter/material.dart';
 import 'windows_layout.dart';
 
 void main() {
