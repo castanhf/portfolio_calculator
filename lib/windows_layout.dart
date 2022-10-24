@@ -19,13 +19,13 @@ class _WindowsLayoutState extends State<WindowsLayout> {
   final TextEditingController _returnRateController = TextEditingController();
   final TextEditingController _timePeriodController = TextEditingController();
   // ignore: prefer_final_fields
-  double _monthlyInvestment = 25000;
+  final double MONTHLYINVESTMENT = 25000;
   double _expectedReturnRate = 12;
   double _timePeriod = 10;
 
   // Controller objects declaration
   late MonthlyInvControllerObject monInvObject =
-      MonthlyInvControllerObject(_monthlyInvestment, _monthlyInvController);
+      MonthlyInvControllerObject(MONTHLYINVESTMENT, _monthlyInvController);
 
   late EstimatedReturnControllerObject retRateObject =
       EstimatedReturnControllerObject(
