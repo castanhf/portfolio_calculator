@@ -19,7 +19,7 @@ class _WindowsLayoutState extends State<WindowsLayout> {
   final TextEditingController _returnRateController = TextEditingController();
   final TextEditingController _timePeriodController = TextEditingController();
   // ignore: prefer_final_fields
-  final double MONTHLYINVESTMENT = 25000;
+  static const double MONTHLYINVESTMENT = 25000;
   double _expectedReturnRate = 12;
   double _timePeriod = 10;
 
@@ -47,12 +47,13 @@ class _WindowsLayoutState extends State<WindowsLayout> {
     monInvObject.txtEditContr.text =
         '\$${decimalFormat.format(monInvObject.controllerValue.floor())}';
 
-    _returnRateController.text = _expectedReturnRate.toStringAsFixed(0);
+    _returnRateController.text =
+        retRateObject.controllerValue.toStringAsFixed(0);
     _timePeriodController.text = _timePeriod.toString();
 
     _investedAmount = (monInvObject.controllerValue * 12) * _timePeriod;
 
-    i = (_expectedReturnRate) / (12 * 100);
+    i = (retRateObject.controllerValue) / (12 * 100);
 
     _estimatedReturns = (monInvObject.controllerValue *
             (((pow((1 + i), (_timePeriod * 12))) - 1) / i) *
@@ -153,7 +154,7 @@ class _WindowsLayoutState extends State<WindowsLayout> {
                           startWidth: 0.35,
                           endWidth: 0.35),
                       GaugeRange(
-                          startValue: _expectedReturnRate,
+                          startValue: retRateObject.controllerValue,
                           endValue: 30,
                           sizeUnit: GaugeSizeUnit.factor,
                           color: const Color(0xFF5367ff),
